@@ -378,10 +378,11 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, watch, nextTick, computed } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Download } from '@element-plus/icons-vue'
+// 修复ECharts按需加载问题，使用更兼容的导入方式
 import * as echarts from 'echarts'
 
 // 获取当前路由
@@ -488,11 +489,12 @@ const paymentStatsData = {
 
 // 初始化客户图表
 const initCustomerChart = () => {
-  if (customerChart) {
-    customerChart.dispose()
+  if (!customerChartRef.value) return
+  
+  if (!customerChart) {
+    customerChart = echarts.init(customerChartRef.value)
   }
   
-  customerChart = echarts.init(customerChartRef.value)
   const data = customerStatsData[customerStatsType.value]
   
   const option = {
@@ -536,11 +538,12 @@ const initCustomerChart = () => {
 
 // 初始化销售图表
 const initSalesChart = () => {
-  if (salesChart) {
-    salesChart.dispose()
+  if (!salesChartRef.value) return
+  
+  if (!salesChart) {
+    salesChart = echarts.init(salesChartRef.value)
   }
   
-  salesChart = echarts.init(salesChartRef.value)
   const data = salesStatsData[salesStatsType.value]
   
   const option = {
@@ -592,11 +595,12 @@ const initSalesChart = () => {
 
 // 初始化商机图表
 const initOpportunityChart = () => {
-  if (opportunityChart) {
-    opportunityChart.dispose()
+  if (!opportunityChartRef.value) return
+  
+  if (!opportunityChart) {
+    opportunityChart = echarts.init(opportunityChartRef.value)
   }
   
-  opportunityChart = echarts.init(opportunityChartRef.value)
   const data = opportunityStatsData[opportunityStatsType.value]
   
   let chartType = 'bar'
@@ -683,11 +687,12 @@ const initOpportunityChart = () => {
 
 // 初始化回款图表
 const initPaymentChart = () => {
-  if (paymentChart) {
-    paymentChart.dispose()
+  if (!paymentChartRef.value) return
+  
+  if (!paymentChart) {
+    paymentChart = echarts.init(paymentChartRef.value)
   }
   
-  paymentChart = echarts.init(paymentChartRef.value)
   const data = paymentStatsData[paymentStatsType.value]
   
   const option = {
@@ -774,10 +779,18 @@ const handlePaymentStatsTypeChange = () => {
 
 // 更新所有图表
 const updateCharts = () => {
-  initCustomerChart()
-  initSalesChart()
-  initOpportunityChart()
-  initPaymentChart()
+  if (currentPage.value === 'customer' || currentPage.value === 'default') {
+    initCustomerChart()
+  }
+  if (currentPage.value === 'sales' || currentPage.value === 'default') {
+    initSalesChart()
+  }
+  if (currentPage.value === 'opportunity' || currentPage.value === 'default') {
+    initOpportunityChart()
+  }
+  if (currentPage.value === 'payment' || currentPage.value === 'default') {
+    initPaymentChart()
+  }
 }
 
 // 导出报表
@@ -797,24 +810,49 @@ const handleResize = () => {
   paymentChart?.resize()
 }
 
+// 监听统计类型变化
+watch(customerStatsType, () => {
+  initCustomerChart()
+}, { immediate: false })
+
+watch(salesStatsType, () => {
+  initSalesChart()
+}, { immediate: false })
+
+watch(opportunityStatsType, () => {
+  initOpportunityChart()
+}, { immediate: false })
+
+watch(paymentStatsType, () => {
+  initPaymentChart()
+}, { immediate: false })
+
+// 监听路由变化
+watch(() => currentPage.value, (newPage) => {
+  nextTick(() => {
+    updateCharts()
+  })
+}, { immediate: false })
+
 // 组件挂载时
 onMounted(() => {
   nextTick(() => {
-    if (currentPage.value === 'customer' || currentPage.value === 'default') {
-      initCustomerChart()
-    }
-    if (currentPage.value === 'sales' || currentPage.value === 'default') {
-      initSalesChart()
-    }
-    if (currentPage.value === 'opportunity' || currentPage.value === 'default') {
-      initOpportunityChart()
-    }
-    if (currentPage.value === 'payment' || currentPage.value === 'default') {
-      initPaymentChart()
-    }
+    updateCharts()
   })
   
   window.addEventListener('resize', handleResize)
+})
+
+// 组件卸载时
+onUnmounted(() => {
+  // 销毁图表实例
+  customerChart?.dispose()
+  salesChart?.dispose()
+  opportunityChart?.dispose()
+  paymentChart?.dispose()
+  
+  // 移除事件监听器
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 

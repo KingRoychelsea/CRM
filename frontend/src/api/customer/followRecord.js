@@ -3,9 +3,9 @@ import request from '../axios'
 // 跟进记录管理API
 const followRecordApi = {
   // 获取跟进记录列表
-  getFollowRecordList: (customerId, params) => {
+  getFollowRecordList: (params) => {
     return request({
-      url: `/customer/follow/list/${customerId}`,
+      url: '/customer/follow/list',
       method: 'get',
       params
     })
@@ -29,9 +29,9 @@ const followRecordApi = {
   },
   
   // 更新跟进记录
-  updateFollowRecord: (id, data) => {
+  updateFollowRecord: (data) => {
     return request({
-      url: `/customer/follow/${id}`,
+      url: '/customer/follow',
       method: 'put',
       data
     })
@@ -42,6 +42,31 @@ const followRecordApi = {
     return request({
       url: `/customer/follow/${id}`,
       method: 'delete'
+    })
+  },
+  
+  // 批量删除跟进记录
+  batchDeleteFollowRecord: (ids) => {
+    return request({
+      url: '/customer/follow/batch',
+      method: 'delete',
+      data: ids
+    })
+  },
+  
+  // 根据客户ID获取跟进记录列表
+  getFollowRecordListByCustomerId: (customerId) => {
+    return request({
+      url: `/customer/follow/byCustomer/${customerId}`,
+      method: 'get'
+    })
+  },
+  
+  // 获取待跟进提醒列表
+  getFollowRemind: () => {
+    return request({
+      url: '/customer/follow/remind',
+      method: 'get'
     })
   }
 }

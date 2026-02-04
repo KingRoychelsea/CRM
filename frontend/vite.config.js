@@ -32,11 +32,11 @@ export default defineConfig({
           console.error(`[Proxy Error] ${req.method} ${req.url}: ${err.message}`)
         }
       },
-      // 处理直接的/login请求
-      '^/login': {
+      // 处理API登录请求，避免影响前端路由
+      '^/api/auth/login': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-        rewrite: (path) => '/api/auth/login',
+        rewrite: (path) => path,
         timeout: 30000,
         onProxyReq: (proxyReq, req, res) => {
           console.log(`[Proxy] ${req.method} ${req.url} -> ${proxyReq.path}`)

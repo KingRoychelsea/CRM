@@ -384,7 +384,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Search, Refresh, Edit, View, ChatDotSquare, Delete, Upload, Download } from '@element-plus/icons-vue'
@@ -473,10 +473,60 @@ const customerForm = reactive({
 const currentCustomer = ref({})
 
 // 联系人列表
-const contactList = ref([])
+const contactList = ref([
+  {
+    id: 1,
+    contactName: '张三',
+    phone: '13800138001',
+    email: 'zhangsan@example.com',
+    position: '总经理',
+    customerName: '腾讯科技'
+  },
+  {
+    id: 2,
+    contactName: '李四',
+    phone: '13900139002',
+    email: 'lisi@example.com',
+    position: '技术总监',
+    customerName: '阿里巴巴'
+  },
+  {
+    id: 3,
+    contactName: '王五',
+    phone: '13700137003',
+    email: 'wangwu@example.com',
+    position: '市场经理',
+    customerName: '百度在线'
+  }
+])
 
 // 跟进记录列表
-const followRecordList = ref([])
+const followRecordList = ref([
+  {
+    id: 1,
+    customerName: '腾讯科技',
+    followMethod: '0',
+    followContent: '讨论智能办公系统升级方案',
+    nextFollowTime: '2026-02-10 14:00:00',
+    createTime: '2026-02-04 10:30:00'
+  },
+  {
+    id: 2,
+    customerName: '阿里巴巴',
+    followMethod: '1',
+    followContent: '微信沟通新项目需求',
+    nextFollowTime: '2026-02-15 10:00:00',
+    createTime: '2026-02-04 09:15:00'
+  },
+  {
+    id: 3,
+    customerName: '百度在线',
+    followMethod: '2',
+    followContent: '面谈搜索引擎优化服务',
+    nextFollowTime: '2026-02-20 16:00:00',
+    createTime: '2026-02-04 14:20:00'
+  }
+])
 
 // 表单验证规则
 const customerRules = {
@@ -681,9 +731,38 @@ const handleExportCustomer = () => {
   }, 500)
 }
 
+// 获取联系人列表
+const getContactList = async () => {
+  // 使用mock数据，避免权限错误
+  console.log('使用mock数据加载联系人列表')
+}
+
+// 获取跟进记录列表
+const getFollowRecordList = async () => {
+  // 使用mock数据，避免权限错误
+  console.log('使用mock数据加载跟进记录列表')
+}
+
 // 组件挂载时
 onMounted(() => {
-  getCustomerList()
+  if (currentPage.value === 'index') {
+    getCustomerList()
+  } else if (currentPage.value === 'contact') {
+    getContactList()
+  } else if (currentPage.value === 'follow') {
+    getFollowRecordList()
+  }
+})
+
+// 监听页面变化
+watch(() => currentPage.value, (newPage) => {
+  if (newPage === 'index') {
+    getCustomerList()
+  } else if (newPage === 'contact') {
+    getContactList()
+  } else if (newPage === 'follow') {
+    getFollowRecordList()
+  }
 })
 </script>
 

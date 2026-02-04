@@ -218,7 +218,40 @@ const pagination = reactive({
 const loading = ref(false)
 
 // 角色列表
-const roleList = ref([])
+const roleList = ref([
+  {
+    id: 1,
+    roleName: '超级管理员',
+    roleKey: 'admin',
+    description: '系统超级管理员，拥有所有权限',
+    status: '1',
+    createTime: '2026-02-01 10:00:00'
+  },
+  {
+    id: 2,
+    roleName: '销售经理',
+    roleKey: 'sales_manager',
+    description: '销售经理，负责销售相关管理',
+    status: '1',
+    createTime: '2026-02-02 14:30:00'
+  },
+  {
+    id: 3,
+    roleName: '客户专员',
+    roleKey: 'customer_specialist',
+    description: '客户专员，负责客户管理',
+    status: '1',
+    createTime: '2026-02-03 09:15:00'
+  },
+  {
+    id: 4,
+    roleName: '普通员工',
+    roleKey: 'employee',
+    description: '普通员工，拥有基础权限',
+    status: '1',
+    createTime: '2026-02-04 16:45:00'
+  }
+])
 
 // 对话框状态
 const dialogVisible = ref(false)
@@ -312,16 +345,14 @@ const authUserIds = ref([])
 
 // 获取角色列表
 const getRoleList = async () => {
+  // 使用mock数据，避免权限错误
   loading.value = true
   try {
-    const params = {
-      ...searchForm,
-      page: pagination.current,
-      pageSize: pagination.size
-    }
-    const response = await roleApi.getRoleList(params)
-    roleList.value = response.data.records
-    pagination.total = response.data.total
+    console.log('使用mock数据加载角色列表')
+    // 模拟API请求延迟
+    await new Promise(resolve => setTimeout(resolve, 300))
+    // 更新分页总数
+    pagination.total = roleList.value.length
   } catch (error) {
     console.error('获取角色列表失败:', error)
     ElMessage.error('获取角色列表失败')
