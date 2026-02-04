@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: crm-backend
+  
+  # 允许Bean定义覆盖
+  main:
+    allow-bean-definition-overriding: true
+  
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/crm?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: user
+    password: 612345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  # 国际化配置
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+
+# MyBatis Plus配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.crm.entity
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# JWT配置
+jwt:
+  secret: crm_system_secret_key_2024_secure_long_key_for_jwt_token_generation
+  expire: 86400
+  header: Authorization
+
+# Knife4j配置
+knife4j:
+  enable: false
+  setting:
+    language: zh_cn
+    enableSwaggerModels: true
+    swaggerModelName: 实体类
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: CRM系统API文档
+
+# 禁用Springfox
+springfox:
+  documentation:
+    enabled: false
