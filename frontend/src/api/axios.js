@@ -2,10 +2,13 @@ import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserStore } from '../store/user'
 
+import { getCurrentEnvConfig } from '../config/api.config'
+
 // 创建axios实例
+const envConfig = getCurrentEnvConfig()
 const service = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
+  baseURL: envConfig.baseUrl,
+  timeout: envConfig.timeout,
   headers: {
     'Content-Type': 'application/json'
   }

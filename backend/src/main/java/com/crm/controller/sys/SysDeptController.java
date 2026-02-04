@@ -1,6 +1,7 @@
 package com.crm.controller.sys;
 
 import com.crm.common.Result;
+import com.crm.config.ApiPathConfig;
 import com.crm.dto.sys.SysDeptDTO;
 import com.crm.entity.sys.SysDept;
 import com.crm.service.sys.SysDeptService;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @Api(tags = "系统部门管理")
 @RestController
-@RequestMapping("/api/sys/dept")
+@RequestMapping(ApiPathConfig.DEPT_PATH)
 public class SysDeptController {
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.crm.controller.sys;
 
 import com.crm.common.Result;
+import com.crm.config.ApiPathConfig;
 import com.crm.dto.sys.SysMenuDTO;
 import com.crm.entity.sys.SysMenu;
 import com.crm.service.sys.SysMenuService;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @Api(tags = "系统菜单管理")
 @RestController
-@RequestMapping("/api/sys/menu")
+@RequestMapping(ApiPathConfig.MENU_PATH)
 public class SysMenuController {
 
     @Autowired

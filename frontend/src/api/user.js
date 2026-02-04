@@ -3,7 +3,7 @@ import service from './axios'
 // 登录
 export function login(data) {
   return service({
-    url: '/auth/login',
+    url: '/api/auth/login',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export function login(data) {
 // 登出
 export function logout() {
   return service({
-    url: '/auth/logout',
+    url: '/api/auth/logout',
     method: 'post'
   })
 }
@@ -20,7 +20,7 @@ export function logout() {
 // 获取用户信息
 export function getInfo() {
   return service({
-    url: '/auth/info',
+    url: '/api/auth/info',
     method: 'get'
   })
 }
@@ -28,7 +28,7 @@ export function getInfo() {
 // 刷新token
 export function refreshToken() {
   return service({
-    url: '/auth/refresh',
+    url: '/api/auth/refresh',
     method: 'post'
   })
 }
@@ -36,7 +36,7 @@ export function refreshToken() {
 // 重置密码
 export function resetPassword(data) {
   return service({
-    url: '/system/user/resetPassword',
+    url: '/api/sys/user/resetPassword',
     method: 'put',
     data
   })
@@ -45,7 +45,7 @@ export function resetPassword(data) {
 // 修改密码
 export function changePassword(data) {
   return service({
-    url: '/system/user/changePassword',
+    url: '/api/sys/user/changePassword',
     method: 'put',
     data
   })

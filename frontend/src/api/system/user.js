@@ -1,11 +1,12 @@
 import request from '../axios'
+import { API_CONFIG } from '../../config/api.config'
 
 // 用户管理API
 const userApi = {
   // 获取用户列表
   getUserList: (params) => {
     return request({
-      url: '/api/sys/user/list',
+      url: API_CONFIG.SYSTEM.USER.LIST,
       method: 'get',
       params
     })
@@ -14,7 +15,7 @@ const userApi = {
   // 获取用户详情
   getUserInfo: (id) => {
     return request({
-      url: `/api/sys/user/${id}`,
+      url: `${API_CONFIG.SYSTEM.USER.DETAIL}/${id}`,
       method: 'get'
     })
   },
@@ -22,7 +23,7 @@ const userApi = {
   // 创建用户
   createUser: (data) => {
     return request({
-      url: '/api/sys/user',
+      url: API_CONFIG.SYSTEM.USER.CREATE,
       method: 'post',
       data
     })
@@ -31,7 +32,7 @@ const userApi = {
   // 更新用户
   updateUser: (id, data) => {
     return request({
-      url: `/api/sys/user/${id}`,
+      url: `${API_CONFIG.SYSTEM.USER.UPDATE}/${id}`,
       method: 'put',
       data
     })
@@ -40,7 +41,7 @@ const userApi = {
   // 删除用户
   deleteUser: (id) => {
     return request({
-      url: `/api/sys/user/${id}`,
+      url: `${API_CONFIG.SYSTEM.USER.DELETE}/${id}`,
       method: 'delete'
     })
   },
@@ -48,7 +49,7 @@ const userApi = {
   // 重置密码
   resetPassword: (id, data) => {
     return request({
-      url: `/api/sys/user/resetPassword/${id}`,
+      url: `${API_CONFIG.SYSTEM.USER.RESET_PASSWORD}/${id}`,
       method: 'put',
       data
     })
@@ -57,7 +58,7 @@ const userApi = {
   // 获取部门树
   getDeptTree: () => {
     return request({
-      url: '/api/sys/dept/tree',
+      url: API_CONFIG.SYSTEM.DEPT.TREE,
       method: 'get'
     })
   },
@@ -65,7 +66,7 @@ const userApi = {
   // 获取角色列表
   getRoleList: () => {
     return request({
-      url: '/api/sys/role/list',
+      url: API_CONFIG.SYSTEM.ROLE.LIST,
       method: 'get'
     })
   }

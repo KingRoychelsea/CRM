@@ -1,6 +1,7 @@
 <template>
   <div class="customer-management">
-    <el-card>
+    <!-- 客户管理页面 -->
+    <el-card v-if="currentPage === 'index'">
       <template #header>
         <div class="card-header">
           <span>客户管理</span>
@@ -132,6 +133,88 @@
       </div>
     </el-card>
     
+    <!-- 联系人管理页面 -->
+    <el-card v-else-if="currentPage === 'contact'">
+      <template #header>
+        <div class="card-header">
+          <span>联系人管理</span>
+          <div class="header-buttons">
+            <el-button type="primary">
+              <el-icon><Plus /></el-icon>
+              <span>新增联系人</span>
+            </el-button>
+          </div>
+        </div>
+      </template>
+      
+      <!-- 联系人列表 -->
+      <el-table
+        :data="contactList"
+        style="width: 100%"
+        border
+      >
+        <el-table-column prop="id" label="联系人ID" width="80"></el-table-column>
+        <el-table-column prop="contactName" label="联系人姓名" width="120"></el-table-column>
+        <el-table-column prop="phone" label="电话" width="150"></el-table-column>
+        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+        <el-table-column prop="position" label="职位" width="120"></el-table-column>
+        <el-table-column prop="customerName" label="所属客户" width="180"></el-table-column>
+        <el-table-column label="操作" width="150" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" size="small">
+              <el-icon><Edit /></el-icon>
+              <span>编辑</span>
+            </el-button>
+            <el-button type="danger" size="small">
+              <el-icon><Delete /></el-icon>
+              <span>删除</span>
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+    
+    <!-- 跟进记录页面 -->
+    <el-card v-else-if="currentPage === 'follow'">
+      <template #header>
+        <div class="card-header">
+          <span>跟进记录</span>
+          <div class="header-buttons">
+            <el-button type="primary">
+              <el-icon><Plus /></el-icon>
+              <span>添加跟进记录</span>
+            </el-button>
+          </div>
+        </div>
+      </template>
+      
+      <!-- 跟进记录列表 -->
+      <el-table
+        :data="followRecordList"
+        style="width: 100%"
+        border
+      >
+        <el-table-column prop="id" label="记录ID" width="80"></el-table-column>
+        <el-table-column prop="customerName" label="客户名称" width="180"></el-table-column>
+        <el-table-column prop="followMethod" label="跟进方式" width="100">
+          <template #default="scope">
+            {{ followMethodMap[scope.row.followMethod] }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="followContent" label="跟进内容"></el-table-column>
+        <el-table-column prop="nextFollowTime" label="下次跟进时间" width="180"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
+        <el-table-column label="操作" width="100" fixed="right">
+          <template #default="scope">
+            <el-button type="primary" size="small">
+              <el-icon><Edit /></el-icon>
+              <span>编辑</span>
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+    
     <!-- 新增/编辑客户对话框 -->
     <el-dialog
       v-model="dialogVisible"
@@ -217,54 +300,56 @@
     <el-dialog
       v-model="detailVisible"
       title="客户详情"
-      width="800px"
+      width="900px"
     >
-      <el-descriptions :column="2" border>
-        <el-descriptions-item label="客户名称">{{ currentCustomer.customerName }}</el-descriptions-item>
-        <el-descriptions-item label="客户分类">{{ customerTypeMap[currentCustomer.customerType]?.label }}</el-descriptions-item>
-        <el-descriptions-item label="联系人">{{ currentCustomer.contactName }}</el-descriptions-item>
-        <el-descriptions-item label="电话">{{ currentCustomer.phone }}</el-descriptions-item>
-        <el-descriptions-item label="邮箱">{{ currentCustomer.email }}</el-descriptions-item>
-        <el-descriptions-item label="地址">{{ currentCustomer.address }}</el-descriptions-item>
-        <el-descriptions-item label="所属行业">{{ currentCustomer.industry }}</el-descriptions-item>
-        <el-descriptions-item label="客户来源">{{ currentCustomer.source }}</el-descriptions-item>
-        <el-descriptions-item label="创建时间">{{ currentCustomer.createTime }}</el-descriptions-item>
-        <el-descriptions-item label="状态">{{ currentCustomer.status === '1' ? '启用' : '禁用' }}</el-descriptions-item>
-        <el-descriptions-item label="客户描述" :span="2">{{ currentCustomer.description }}</el-descriptions-item>
-      </el-descriptions>
-      
-      <!-- 联系人列表 -->
-      <h3 style="margin-top: 20px;">联系人</h3>
-      <el-table :data="contactList" style="width: 100%" border>
-        <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-        <el-table-column prop="phone" label="电话" width="150"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-        <el-table-column prop="position" label="职位" width="120"></el-table-column>
-        <el-table-column prop="priority" label="优先级" width="100">
-          <template #default="scope">
-            <el-tag :type="scope.row.priority === '1' ? 'danger' : 'info'">
-              {{ scope.row.priority === '1' ? '高' : '普通' }}
-            </el-tag>
-          </template>
-        </el-table-column>
-      </el-table>
-      
-      <!-- 跟进记录 -->
-      <h3 style="margin-top: 20px;">跟进记录</h3>
-      <el-table :data="followRecordList" style="width: 100%" border>
-        <el-table-column prop="followContent" label="跟进内容"></el-table-column>
-        <el-table-column prop="followMethod" label="跟进方式" width="120">
-          <template #default="scope">
-            <el-tag>{{ followMethodMap[scope.row.followMethod] }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="followTime" label="跟进时间" width="180"></el-table-column>
-        <el-table-column prop="nextFollowTime" label="下次跟进" width="180"></el-table-column>
-        <el-table-column prop="followUser" label="跟进人" width="120"></el-table-column>
-      </el-table>
+      <el-tabs>
+        <el-tab-pane label="基本信息">
+          <el-descriptions :column="2" border>
+            <el-descriptions-item label="客户名称">{{ currentCustomer.customerName }}</el-descriptions-item>
+            <el-descriptions-item label="客户分类">{{ currentCustomer.customerType ? customerTypeMap[currentCustomer.customerType].label : '' }}</el-descriptions-item>
+            <el-descriptions-item label="联系人">{{ currentCustomer.contactName }}</el-descriptions-item>
+            <el-descriptions-item label="电话">{{ currentCustomer.phone }}</el-descriptions-item>
+            <el-descriptions-item label="邮箱">{{ currentCustomer.email }}</el-descriptions-item>
+            <el-descriptions-item label="地址">{{ currentCustomer.address }}</el-descriptions-item>
+            <el-descriptions-item label="所属行业">{{ currentCustomer.industry }}</el-descriptions-item>
+            <el-descriptions-item label="客户来源">{{ currentCustomer.source }}</el-descriptions-item>
+            <el-descriptions-item label="状态">{{ currentCustomer.status === '1' ? '启用' : '禁用' }}</el-descriptions-item>
+            <el-descriptions-item label="创建时间">{{ currentCustomer.createTime }}</el-descriptions-item>
+            <el-descriptions-item label="客户描述" :span="2">{{ currentCustomer.description }}</el-descriptions-item>
+          </el-descriptions>
+        </el-tab-pane>
+        <el-tab-pane label="联系人">
+          <el-table :data="contactList" style="width: 100%" border>
+            <el-table-column prop="id" label="联系人ID" width="80"></el-table-column>
+            <el-table-column prop="contactName" label="联系人姓名" width="120"></el-table-column>
+            <el-table-column prop="phone" label="电话" width="150"></el-table-column>
+            <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+            <el-table-column prop="position" label="职位" width="120"></el-table-column>
+            <el-table-column prop="remark" label="备注"></el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="跟进记录">
+          <el-table :data="followRecordList" style="width: 100%" border>
+            <el-table-column prop="id" label="记录ID" width="80"></el-table-column>
+            <el-table-column prop="followMethod" label="跟进方式" width="100">
+              <template #default="scope">
+                {{ followMethodMap[scope.row.followMethod] }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="followContent" label="跟进内容"></el-table-column>
+            <el-table-column prop="nextFollowTime" label="下次跟进时间" width="180"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="detailVisible = false">关闭</el-button>
+        </span>
+      </template>
     </el-dialog>
     
-    <!-- 导入对话框 -->
+    <!-- 导入客户对话框 -->
     <el-dialog
       v-model="importVisible"
       title="导入客户"
@@ -272,27 +357,26 @@
     >
       <el-upload
         class="upload-demo"
-        action=""
+        drag
+        action="#"
+        multiple
         :auto-upload="false"
         :on-change="handleFileChange"
-        :show-file-list="true"
-        accept=".xlsx,.xls"
-        :limit="1"
       >
-        <el-button type="primary">
-          <el-icon><Upload /></el-icon>
-          <span>选择文件</span>
-        </el-button>
+        <el-icon class="el-icon--upload"><Upload /></el-icon>
+        <div class="el-upload__text">
+          将文件拖到此处，或 <em>点击上传</em>
+        </div>
         <template #tip>
           <div class="el-upload__tip">
-            请选择Excel文件进行导入，支持.xlsx和.xls格式
+            只能上传 Excel 文件，且不超过 5MB
           </div>
         </template>
       </el-upload>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="importVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleImportSubmit">导入</el-button>
+          <el-button type="primary" @click="handleImportSubmit">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -301,8 +385,27 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Search, Refresh, Edit, View, ChatDotSquare, Delete, Upload, Download } from '@element-plus/icons-vue'
+import customerApi from '@/api/customer/customer'
+import contactApi from '@/api/customer/contact'
+import followRecordApi from '@/api/customer/followRecord'
+
+// 获取当前路由
+const route = useRoute()
+
+// 根据路由计算当前页面类型
+const currentPage = computed(() => {
+  const path = route.path
+  if (path.includes('/contact')) {
+    return 'contact'
+  } else if (path.includes('/follow')) {
+    return 'follow'
+  } else {
+    return 'index'
+  }
+})
 
 // 搜索表单
 const searchForm = reactive({
@@ -404,57 +507,18 @@ const customerRules = {
 const getCustomerList = async () => {
   loading.value = true
   try {
-    // 模拟API请求
-    // 实际项目中需要调用后端API
-    setTimeout(() => {
-      customerList.value = [
-        {
-          id: 1,
-          customerName: '阿里巴巴集团',
-          contactName: '张三',
-          phone: '13800138000',
-          email: 'zhangsan@alibaba.com',
-          customerType: '2',
-          status: '1',
-          createTime: '2023-01-01 10:00:00'
-        },
-        {
-          id: 2,
-          customerName: '腾讯科技',
-          contactName: '李四',
-          phone: '13900139000',
-          email: 'lisi@tencent.com',
-          customerType: '1',
-          status: '1',
-          createTime: '2023-01-02 10:00:00'
-        },
-        {
-          id: 3,
-          customerName: '百度在线',
-          contactName: '王五',
-          phone: '13700137000',
-          email: 'wangwu@baidu.com',
-          customerType: '0',
-          status: '1',
-          createTime: '2023-01-03 10:00:00'
-        },
-        {
-          id: 4,
-          customerName: '字节跳动',
-          contactName: '赵六',
-          phone: '13600136000',
-          email: 'zhaoliu@bytedance.com',
-          customerType: '3',
-          status: '0',
-          createTime: '2023-01-04 10:00:00'
+    const params = {
+            ...searchForm,
+            pageNum: pagination.current,
+            pageSize: pagination.size
         }
-      ]
-      pagination.total = 4
-      loading.value = false
-    }, 500)
+    const response = await customerApi.getCustomerList(params)
+    customerList.value = response.data.records
+    pagination.total = response.data.total
   } catch (error) {
     console.error('获取客户列表失败:', error)
     ElMessage.error('获取客户列表失败')
+  } finally {
     loading.value = false
   }
 }
@@ -511,60 +575,41 @@ const handleSubmit = async () => {
   try {
     await customerFormRef.value.validate()
     
-    // 模拟API请求
-    // 实际项目中需要调用后端API
-    setTimeout(() => {
-      dialogVisible.value = false
-      ElMessage.success(dialogType.value === 'add' ? '新增客户成功' : '编辑客户成功')
-      getCustomerList()
-    }, 500)
+    if (dialogType.value === 'add') {
+      await customerApi.createCustomer(customerForm)
+    } else {
+      await customerApi.updateCustomer(customerForm.id, customerForm)
+    }
+    
+    dialogVisible.value = false
+    ElMessage.success(dialogType.value === 'add' ? '新增客户成功' : '编辑客户成功')
+    getCustomerList()
   } catch (error) {
-    console.error('表单验证失败:', error)
+    console.error('提交失败:', error)
+    ElMessage.error('提交失败')
   }
 }
 
 // 查看客户详情
-const handleViewCustomer = (customer) => {
-  currentCustomer.value = customer
-  // 模拟获取联系人列表
-  contactList.value = [
-    {
-      id: 1,
-      name: '张三',
-      phone: '13800138000',
-      email: 'zhangsan@alibaba.com',
-      position: '技术总监',
-      priority: '1'
-    },
-    {
-      id: 2,
-      name: '李四',
-      phone: '13900139000',
-      email: 'lisi@alibaba.com',
-      position: '产品经理',
-      priority: '0'
-    }
-  ]
-  // 模拟获取跟进记录
-  followRecordList.value = [
-    {
-      id: 1,
-      followContent: '初次接触，了解需求',
-      followMethod: '0',
-      followTime: '2023-01-01 10:00:00',
-      nextFollowTime: '2023-01-08 10:00:00',
-      followUser: '管理员'
-    },
-    {
-      id: 2,
-      followContent: '详细沟通项目细节',
-      followMethod: '2',
-      followTime: '2023-01-08 10:00:00',
-      nextFollowTime: '2023-01-15 10:00:00',
-      followUser: '管理员'
-    }
-  ]
-  detailVisible.value = true
+const handleViewCustomer = async (customer) => {
+  try {
+    // 获取客户详情
+    const customerResponse = await customerApi.getCustomerInfo(customer.id)
+    currentCustomer.value = customerResponse.data
+    
+    // 获取联系人列表
+    const contactResponse = await contactApi.getContactList(customer.id)
+    contactList.value = contactResponse.data
+    
+    // 获取跟进记录列表
+    const followResponse = await followRecordApi.getFollowRecordList(customer.id)
+    followRecordList.value = followResponse.data
+    
+    detailVisible.value = true
+  } catch (error) {
+    console.error('获取客户详情失败:', error)
+    ElMessage.error('获取客户详情失败')
+  }
 }
 
 // 行点击事件
@@ -592,13 +637,15 @@ const handleDeleteCustomer = (id) => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(() => {
-    // 模拟API请求
-    // 实际项目中需要调用后端API
-    setTimeout(() => {
+  }).then(async () => {
+    try {
+      await customerApi.deleteCustomer(id)
       ElMessage.success('删除客户成功')
       getCustomerList()
-    }, 500)
+    } catch (error) {
+      console.error('删除客户失败:', error)
+      ElMessage.error('删除客户失败')
+    }
   }).catch(() => {
     // 取消删除
   })

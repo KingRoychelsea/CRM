@@ -1,25 +1,31 @@
 package com.crm.controller;
 
 import com.crm.common.Result;
+import com.crm.config.ApiPathConfig;
 import com.crm.dto.sys.SysUserDTO;
 import com.crm.service.sys.SysUserService;
 import com.crm.vo.sys.SysUserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Arrays;
 
 /**
  * 认证控制器
  */
 @Api(tags = "认证管理")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(ApiPathConfig.AUTH_PATH)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
 
     @Autowired

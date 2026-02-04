@@ -1,6 +1,265 @@
 <template>
   <div class="stats-management">
-    <el-card>
+    <!-- 客户统计页面 -->
+    <el-card v-if="currentPage === 'customer'">
+      <template #header>
+        <div class="card-header">
+          <span>客户统计</span>
+          <div class="header-actions">
+            <el-button type="success" @click="handleExport">
+              <el-icon><Download /></el-icon>
+              <span>导出报表</span>
+            </el-button>
+          </div>
+        </div>
+      </template>
+      
+      <!-- 统计卡片 -->
+      <div class="stats-cards">
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">总客户数</div>
+            <div class="card-value">{{ 330 }}</div>
+            <div class="card-change positive">+12.5%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">本月新增</div>
+            <div class="card-value">{{ 25 }}</div>
+            <div class="card-change positive">+8.2%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">合作客户</div>
+            <div class="card-value">{{ 210 }}</div>
+            <div class="card-change positive">+15.8%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">流失客户</div>
+            <div class="card-value">{{ 35 }}</div>
+            <div class="card-change negative">+3.1%</div>
+          </div>
+        </el-card>
+      </div>
+      
+      <!-- 图表区域 -->
+      <div class="charts-container">
+        <!-- 客户统计图表 -->
+        <el-card class="chart-card">
+          <template #header>
+            <div class="chart-header">
+              <span>客户增长趋势</span>
+              <el-select v-model="customerStatsType" @change="handleCustomerStatsTypeChange">
+                <el-option label="按时间" value="time"></el-option>
+                <el-option label="按分类" value="category"></el-option>
+                <el-option label="按部门" value="dept"></el-option>
+              </el-select>
+            </div>
+          </template>
+          <div ref="customerChartRef" class="chart"></div>
+        </el-card>
+      </div>
+    </el-card>
+    
+    <!-- 销售统计页面 -->
+    <el-card v-else-if="currentPage === 'sales'">
+      <template #header>
+        <div class="card-header">
+          <span>销售统计</span>
+          <div class="header-actions">
+            <el-button type="success" @click="handleExport">
+              <el-icon><Download /></el-icon>
+              <span>导出报表</span>
+            </el-button>
+          </div>
+        </div>
+      </template>
+      
+      <!-- 统计卡片 -->
+      <div class="stats-cards">
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">本月销售额</div>
+            <div class="card-value">¥{{ 1250000.00 }}</div>
+            <div class="card-change positive">+8.2%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">本季度销售额</div>
+            <div class="card-value">¥{{ 3800000.00 }}</div>
+            <div class="card-change positive">+12.5%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">年度目标完成率</div>
+            <div class="card-value">{{ 32 }}%</div>
+            <div class="card-change positive">+5.2%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">销售冠军</div>
+            <div class="card-value">管理员</div>
+            <div class="card-change">¥1,200,000</div>
+          </div>
+        </el-card>
+      </div>
+      
+      <!-- 图表区域 -->
+      <div class="charts-container">
+        <!-- 销售业绩统计图表 -->
+        <el-card class="chart-card">
+          <template #header>
+            <div class="chart-header">
+              <span>销售业绩统计</span>
+              <el-select v-model="salesStatsType" @change="handleSalesStatsTypeChange">
+                <el-option label="按员工" value="employee"></el-option>
+                <el-option label="按部门" value="dept"></el-option>
+                <el-option label="按时间" value="time"></el-option>
+              </el-select>
+            </div>
+          </template>
+          <div ref="salesChartRef" class="chart"></div>
+        </el-card>
+      </div>
+    </el-card>
+    
+    <!-- 商机统计页面 -->
+    <el-card v-else-if="currentPage === 'opportunity'">
+      <template #header>
+        <div class="card-header">
+          <span>商机统计</span>
+          <div class="header-actions">
+            <el-button type="success" @click="handleExport">
+              <el-icon><Download /></el-icon>
+              <span>导出报表</span>
+            </el-button>
+          </div>
+        </div>
+      </template>
+      
+      <!-- 统计卡片 -->
+      <div class="stats-cards">
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">总商机数</div>
+            <div class="card-value">{{ 220 }}</div>
+            <div class="card-change positive">+8.2%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">本月新增</div>
+            <div class="card-value">{{ 35 }}</div>
+            <div class="card-change negative">-3.1%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">预计总金额</div>
+            <div class="card-value">¥{{ 58000000.00 }}</div>
+            <div class="card-change positive">+15.8%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">成功率</div>
+            <div class="card-value">{{ 45 }}%</div>
+            <div class="card-change positive">+2.5%</div>
+          </div>
+        </el-card>
+      </div>
+      
+      <!-- 图表区域 -->
+      <div class="charts-container">
+        <!-- 商机统计图表 -->
+        <el-card class="chart-card">
+          <template #header>
+            <div class="chart-header">
+              <span>商机统计</span>
+              <el-select v-model="opportunityStatsType" @change="handleOpportunityStatsTypeChange">
+                <el-option label="按阶段" value="stage"></el-option>
+                <el-option label="按时间" value="time"></el-option>
+              </el-select>
+            </div>
+          </template>
+          <div ref="opportunityChartRef" class="chart"></div>
+        </el-card>
+      </div>
+    </el-card>
+    
+    <!-- 回款统计页面 -->
+    <el-card v-else-if="currentPage === 'payment'">
+      <template #header>
+        <div class="card-header">
+          <span>回款统计</span>
+          <div class="header-actions">
+            <el-button type="success" @click="handleExport">
+              <el-icon><Download /></el-icon>
+              <span>导出报表</span>
+            </el-button>
+          </div>
+        </div>
+      </template>
+      
+      <!-- 统计卡片 -->
+      <div class="stats-cards">
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">本月回款</div>
+            <div class="card-value">¥{{ 980000.00 }}</div>
+            <div class="card-change positive">+15.8%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">本季度回款</div>
+            <div class="card-value">¥{{ 2800000.00 }}</div>
+            <div class="card-change positive">+12.5%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">回款率</div>
+            <div class="card-value">{{ 85 }}%</div>
+            <div class="card-change positive">+3.2%</div>
+          </div>
+        </el-card>
+        <el-card shadow="hover" class="stats-card">
+          <div class="card-content">
+            <div class="card-title">待回款</div>
+            <div class="card-value">¥{{ 1200000.00 }}</div>
+            <div class="card-change negative">+5.1%</div>
+          </div>
+        </el-card>
+      </div>
+      
+      <!-- 图表区域 -->
+      <div class="charts-container">
+        <!-- 回款统计图表 -->
+        <el-card class="chart-card">
+          <template #header>
+            <div class="chart-header">
+              <span>回款统计</span>
+              <el-select v-model="paymentStatsType" @change="handlePaymentStatsTypeChange">
+                <el-option label="按时间" value="time"></el-option>
+                <el-option label="按方式" value="method"></el-option>
+              </el-select>
+            </div>
+          </template>
+          <div ref="paymentChartRef" class="chart"></div>
+        </el-card>
+      </div>
+    </el-card>
+    
+    <!-- 默认统计页面 -->
+    <el-card v-else>
       <template #header>
         <div class="card-header">
           <span>数据统计分析</span>
@@ -119,10 +378,30 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, watch, nextTick } from 'vue'
+import { ref, reactive, onMounted, watch, nextTick, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Download } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
+
+// 获取当前路由
+const route = useRoute()
+
+// 根据路由计算当前页面类型
+const currentPage = computed(() => {
+  const path = route.path
+  if (path === '/stats/customer') {
+    return 'customer'
+  } else if (path === '/stats/sales') {
+    return 'sales'
+  } else if (path === '/stats/opportunity') {
+    return 'opportunity'
+  } else if (path === '/stats/payment') {
+    return 'payment'
+  } else {
+    return 'default'
+  }
+})
 
 // 日期范围
 const dateRange = ref([])
@@ -521,31 +800,21 @@ const handleResize = () => {
 // 组件挂载时
 onMounted(() => {
   nextTick(() => {
-    initCustomerChart()
-    initSalesChart()
-    initOpportunityChart()
-    initPaymentChart()
+    if (currentPage.value === 'customer' || currentPage.value === 'default') {
+      initCustomerChart()
+    }
+    if (currentPage.value === 'sales' || currentPage.value === 'default') {
+      initSalesChart()
+    }
+    if (currentPage.value === 'opportunity' || currentPage.value === 'default') {
+      initOpportunityChart()
+    }
+    if (currentPage.value === 'payment' || currentPage.value === 'default') {
+      initPaymentChart()
+    }
   })
   
   window.addEventListener('resize', handleResize)
-})
-
-// 组件卸载时
-onMounted(() => {
-  window.removeEventListener('resize', handleResize)
-  
-  if (customerChart) {
-    customerChart.dispose()
-  }
-  if (salesChart) {
-    salesChart.dispose()
-  }
-  if (opportunityChart) {
-    opportunityChart.dispose()
-  }
-  if (paymentChart) {
-    paymentChart.dispose()
-  }
 })
 </script>
 

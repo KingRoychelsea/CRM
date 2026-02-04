@@ -1,6 +1,7 @@
 package com.crm.controller.sys;
 
 import com.crm.common.Result;
+import com.crm.config.ApiPathConfig;
 import com.crm.dto.sys.SysRoleDTO;
 import com.crm.entity.sys.SysRole;
 import com.crm.service.sys.SysRoleService;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @Api(tags = "系统角色管理")
 @RestController
-@RequestMapping("/api/sys/role")
+@RequestMapping(ApiPathConfig.ROLE_PATH)
 public class SysRoleController {
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.crm.controller.sys;
 
 import com.crm.common.Result;
+import com.crm.config.ApiPathConfig;
 import com.crm.dto.sys.SysUserDTO;
 import com.crm.service.sys.SysUserService;
 import com.crm.vo.sys.SysUserVO;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Api(tags = "系统用户管理")
 @RestController
-@RequestMapping("/api/sys/user")
+@RequestMapping(ApiPathConfig.USER_PATH)
 public class SysUserController {
 
     @Autowired

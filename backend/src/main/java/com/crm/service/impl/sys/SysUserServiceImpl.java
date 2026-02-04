@@ -218,6 +218,46 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public List<String> getPermissions(Long userId) {
+        // 为admin用户默认添加所有系统管理和客户管理权限
+        SysUser user = userMapper.selectById(userId);
+        if (user != null && "admin".equals(user.getUsername())) {
+            List<String> permissions = new ArrayList<>();
+            // 系统管理权限
+            permissions.add("sys:user:list");
+            permissions.add("sys:user:query");
+            permissions.add("sys:user:add");
+            permissions.add("sys:user:edit");
+            permissions.add("sys:user:delete");
+            permissions.add("sys:role:list");
+            permissions.add("sys:role:query");
+            permissions.add("sys:role:add");
+            permissions.add("sys:role:edit");
+            permissions.add("sys:role:delete");
+            permissions.add("sys:dept:list");
+            permissions.add("sys:dept:query");
+            permissions.add("sys:dept:add");
+            permissions.add("sys:dept:edit");
+            permissions.add("sys:dept:delete");
+            permissions.add("sys:menu:list");
+            permissions.add("sys:menu:query");
+            permissions.add("sys:menu:add");
+            permissions.add("sys:menu:edit");
+            permissions.add("sys:menu:delete");
+            permissions.add("sys:dict:list");
+            permissions.add("sys:dict:query");
+            permissions.add("sys:dict:add");
+            permissions.add("sys:dict:edit");
+            permissions.add("sys:dict:delete");
+            permissions.add("sys:log:list");
+            permissions.add("sys:log:query");
+            // 客户管理权限
+            permissions.add("customer:list");
+            permissions.add("customer:query");
+            permissions.add("customer:add");
+            permissions.add("customer:edit");
+            permissions.add("customer:delete");
+            return permissions;
+        }
         // TODO: 实现获取用户权限的逻辑
         return new ArrayList<>();
     }
@@ -243,11 +283,30 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new UsernameNotFoundException("用户已被禁用");
         }
 
-        // 构建UserDetails对象
-        return User.withUsername(user.getUsername())
-                .password(user.getPassword())
-                .roles() // 这里可以添加用户角色，暂时为空
-                .build();
+        // 为admin用户添加所有权限
+        if ("admin".equals(username)) {
+            // 构建UserDetails对象，添加所有系统管理和客户管理权限
+            return User.withUsername(user.getUsername())
+                    .password(user.getPassword())
+                    .authorities(
+                        // 系统管理权限
+                        "sys:user:list", "sys:user:query", "sys:user:add", "sys:user:edit", "sys:user:delete",
+                        "sys:role:list", "sys:role:query", "sys:role:add", "sys:role:edit", "sys:role:delete",
+                        "sys:dept:list", "sys:dept:query", "sys:dept:add", "sys:dept:edit", "sys:dept:delete",
+                        "sys:menu:list", "sys:menu:query", "sys:menu:add", "sys:menu:edit", "sys:menu:delete",
+                        "sys:dict:list", "sys:dict:query", "sys:dict:add", "sys:dict:edit", "sys:dict:delete",
+                        "sys:log:list", "sys:log:query",
+                        // 客户管理权限
+                        "customer:list", "customer:query", "customer:add", "customer:edit", "customer:delete"
+                    )
+                    .build();
+        } else {
+            // 构建普通用户的UserDetails对象
+            return User.withUsername(user.getUsername())
+                    .password(user.getPassword())
+                    .roles()
+                    .build();
+        }
     }
 
     // 辅助方法：获取用户信息

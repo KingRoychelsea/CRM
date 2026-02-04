@@ -79,16 +79,16 @@
         <el-table-column prop="stage" label="商机阶段" width="120">
           <template #default="scope">
             <el-tag
-              :type="stageMap[scope.row.stage].type"
-              :effect="stageMap[scope.row.stage].effect"
+              :type="stageMap[scope.row.stage] ? stageMap[scope.row.stage].type : 'info'"
+              :effect="stageMap[scope.row.stage] ? stageMap[scope.row.stage].effect : 'dark'"
             >
-              {{ stageMap[scope.row.stage].label }}
+              {{ stageMap[scope.row.stage] ? stageMap[scope.row.stage].label : '未知阶段' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="amount" label="商机金额" width="120">
+        <el-table-column prop="expectedAmount" label="商机金额" width="120">
           <template #default="scope">
-            <span>¥{{ scope.row.amount.toFixed(2) }}</span>
+            <span>¥{{ scope.row.expectedAmount ? scope.row.expectedAmount.toFixed(2) : '0.00' }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="ownerName" label="负责人" width="100"></el-table-column>
@@ -289,6 +289,7 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Search, Refresh, Edit, View, Top, ChatDotSquare, SwitchButton, Delete } from '@element-plus/icons-vue'
+import businessOpportunityApi from '@/api/sales/businessOpportunity'
 
 // 搜索表单
 const searchForm = reactive({
@@ -328,10 +329,10 @@ const userOptions = ref([
 
 // 商机阶段映射
 const stageMap = {
-  '0': { label: '初步接洽', type: 'info', effect: 'dark' },
-  '1': { label: '需求确认', type: 'warning', effect: 'dark' },
-  '2': { label: '方案报价', type: 'success', effect: 'dark' },
-  '3': { label: '合同签订', type: 'primary', effect: 'dark' }
+  1: { label: '初步接洽', type: 'info', effect: 'dark' },
+  2: { label: '需求确认', type: 'warning', effect: 'dark' },
+  3: { label: '方案报价', type: 'success', effect: 'dark' },
+  4: { label: '合同签订', type: 'primary', effect: 'dark' }
 }
 
 // 对话框状态
@@ -416,69 +417,18 @@ const closeOpportunityRules = {
 const getOpportunityList = async () => {
   loading.value = true
   try {
-    // 模拟API请求
-    // 实际项目中需要调用后端API
-    setTimeout(() => {
-      opportunityList.value = [
-        {
-          id: 1,
-          opportunityName: '阿里云服务器采购',
-          customerId: 1,
-          customerName: '阿里巴巴集团',
-          stage: '2',
-          amount: 1000000,
-          ownerId: 1,
-          ownerName: '管理员',
-          nextFollowTime: '2023-01-15 10:00:00',
-          status: '1',
-          createTime: '2023-01-01 10:00:00'
-        },
-        {
-          id: 2,
-          opportunityName: '腾讯云存储服务',
-          customerId: 2,
-          customerName: '腾讯科技',
-          stage: '1',
-          amount: 500000,
-          ownerId: 2,
-          ownerName: '销售1',
-          nextFollowTime: '2023-01-10 14:00:00',
-          status: '1',
-          createTime: '2023-01-02 10:00:00'
-        },
-        {
-          id: 3,
-          opportunityName: '百度推广服务',
-          customerId: 3,
-          customerName: '百度在线',
-          stage: '0',
-          amount: 300000,
-          ownerId: 3,
-          ownerName: '销售2',
-          nextFollowTime: '2023-01-08 09:00:00',
-          status: '1',
-          createTime: '2023-01-03 10:00:00'
-        },
-        {
-          id: 4,
-          opportunityName: '字节跳动广告投放',
-          customerId: 4,
-          customerName: '字节跳动',
-          stage: '3',
-          amount: 2000000,
-          ownerId: 1,
-          ownerName: '管理员',
-          nextFollowTime: '2023-01-20 15:00:00',
-          status: '0',
-          createTime: '2023-01-04 10:00:00'
-        }
-      ]
-      pagination.total = 4
-      loading.value = false
-    }, 500)
+    const params = {
+      ...searchForm,
+      pageNum: pagination.current,
+      pageSize: pagination.size
+    }
+    const response = await businessOpportunityApi.getBusinessOpportunityList(params)
+    opportunityList.value = response.data.records
+    pagination.total = response.data.total
   } catch (error) {
     console.error('获取商机列表失败:', error)
     ElMessage.error('获取商机列表失败')
+  } finally {
     loading.value = false
   }
 }
@@ -536,15 +486,18 @@ const handleSubmit = async () => {
   try {
     await opportunityFormRef.value.validate()
     
-    // 模拟API请求
-    // 实际项目中需要调用后端API
-    setTimeout(() => {
-      dialogVisible.value = false
-      ElMessage.success(dialogType.value === 'add' ? '新增商机成功' : '编辑商机成功')
-      getOpportunityList()
-    }, 500)
+    if (dialogType.value === 'add') {
+      await businessOpportunityApi.createBusinessOpportunity(opportunityForm)
+    } else {
+      await businessOpportunityApi.updateBusinessOpportunity(opportunityForm.id, opportunityForm)
+    }
+    
+    dialogVisible.value = false
+    ElMessage.success(dialogType.value === 'add' ? '新增商机成功' : '编辑商机成功')
+    getOpportunityList()
   } catch (error) {
-    console.error('表单验证失败:', error)
+    console.error('提交失败:', error)
+    ElMessage.error('提交失败')
   }
 }
 

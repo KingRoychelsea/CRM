@@ -1,6 +1,7 @@
 package com.crm.controller.sys;
 
 import com.crm.common.Result;
+import com.crm.config.ApiPathConfig;
 import com.crm.dto.sys.SysDictDTO;
 import com.crm.dto.sys.SysDictItemDTO;
 import com.crm.entity.sys.SysDictItem;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Api(tags = "系统字典管理")
 @RestController
-@RequestMapping("/api/sys/dict")
+@RequestMapping(ApiPathConfig.DICT_PATH)
 public class SysDictController {
 
     @Autowired

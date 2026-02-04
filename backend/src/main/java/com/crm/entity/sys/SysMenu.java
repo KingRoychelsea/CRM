@@ -57,15 +57,17 @@ public class SysMenu implements Serializable {
     /**
      * 是否为外部链接（0-否，1-是）
      */
+    @TableField("is_frame")
     private String isFrame;
 
     /**
      * 是否缓存（0-否，1-是）
      */
+    @TableField("is_cache")
     private String isCache;
 
     /**
-     * 菜单类型（M-目录，C-菜单，F-按钮）
+     * 菜单类型（0:目录,1:菜单,2:按钮）
      */
     private String menuType;
 

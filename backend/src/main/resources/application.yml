@@ -12,6 +12,14 @@ spring:
     username: user
     password: 612345
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # 数据库初始化配置（Spring Boot 2.7+ 版本）
+  sql:
+    init:
+      mode: always
+      schema-locations: [classpath:init.sql, classpath:init_system.sql]
+      data-locations: [classpath:init.sql, classpath:init_system.sql, classpath:fix_dict.sql]
+      encoding: UTF-8
     
   # 国际化配置
   messages:
@@ -35,8 +43,6 @@ mybatis-plus:
 # 服务器配置
 server:
   port: 8080
-  servlet:
-    context-path: /api
 
 # JWT配置
 jwt:

@@ -7,6 +7,12 @@ CREATE DATABASE IF NOT EXISTS crm DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_
 -- Use database
 USE crm;
 
+-- 数据库连接信息
+-- 连接地址：127.0.0.1:3306
+-- 用户名：user
+-- 密码：******
+-- 数据库名称：crm
+
 -- System management module table structure
 
 -- 1. Department table (sys_dept)

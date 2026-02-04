@@ -79,15 +79,7 @@ const routes = [
           requiresAuth: true
         }
       },
-      {
-        path: 'customer',
-        name: 'Customer',
-        component: () => import('../pages/customer/index.vue'),
-        meta: {
-          title: '客户管理',
-          requiresAuth: true
-        }
-      },
+      {        path: 'customer',        name: 'Customer',        component: () => import('../pages/customer/index.vue'),        meta: {          title: '客户管理',          requiresAuth: true        }      },      {        path: 'customer/index',        name: 'CustomerIndex',        component: () => import('../pages/customer/index.vue'),        meta: {          title: '客户列表',          requiresAuth: true        }      },      {        path: 'customer/contact',        name: 'CustomerContact',        component: () => import('../pages/customer/index.vue'),        meta: {          title: '联系人管理',          requiresAuth: true        }      },      {        path: 'customer/follow',        name: 'CustomerFollow',        component: () => import('../pages/customer/index.vue'),        meta: {          title: '跟进记录',          requiresAuth: true        }      },
       {
         path: 'sales/opportunity',
         name: 'SalesOpportunity',
@@ -121,6 +113,42 @@ const routes = [
         component: () => import('../pages/sales/payment/index.vue'),
         meta: {
           title: '回款管理',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'stats/customer',
+        name: 'StatsCustomer',
+        component: () => import('../pages/stats/index.vue'),
+        meta: {
+          title: '客户统计',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'stats/sales',
+        name: 'StatsSales',
+        component: () => import('../pages/stats/index.vue'),
+        meta: {
+          title: '销售统计',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'stats/opportunity',
+        name: 'StatsOpportunity',
+        component: () => import('../pages/stats/index.vue'),
+        meta: {
+          title: '商机统计',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'stats/payment',
+        name: 'StatsPayment',
+        component: () => import('../pages/stats/index.vue'),
+        meta: {
+          title: '回款统计',
           requiresAuth: true
         }
       },

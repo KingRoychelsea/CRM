@@ -19,13 +19,18 @@
 ## 三、部署步骤
 
 ### 1. 数据库部署
-1. 创建数据库：`CREATE DATABASE crm_db DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;`
+1. 创建数据库：`CREATE DATABASE crm DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;`
 2. 执行数据库脚本：`crm-database.sql`，创建所有表结构和基础数据
+3. 数据库连接配置：
+   - 连接地址：127.0.0.1:3306
+   - 用户名：user
+   - 密码：******
+   - 数据库名称：crm
 
 ### 2. 后端项目部署
 1. 进入后端目录：`cd backend`
-2. 安装依赖：`mvn clean install`
-3. 启动项目：`mvn spring-boot:run` 或使用IDE运行 `CrmApplication.java`
+2. 安装依赖：`D:\maven\apache-maven-3.8.8\bin\mvn clean install`
+3. 启动项目：`D:\maven\apache-maven-3.8.8\bin\mvn spring-boot:run` 或使用IDE运行 `CrmApplication.java`
 4. 后端服务默认运行在 `http://localhost:8080`
 
 ### 3. 前端项目部署

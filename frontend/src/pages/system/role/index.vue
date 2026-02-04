@@ -471,13 +471,15 @@ const handleDeleteRole = (id) => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(() => {
-    // 模拟API请求
-    // 实际项目中需要调用后端API
-    setTimeout(() => {
+  }).then(async () => {
+    try {
+      await roleApi.deleteRole(id)
       ElMessage.success('删除角色成功')
       getRoleList()
-    }, 500)
+    } catch (error) {
+      console.error('删除角色失败:', error)
+      ElMessage.error('删除角色失败')
+    }
   }).catch(() => {
     // 取消删除
   })
@@ -509,4 +511,15 @@ onMounted(() => {
 
 .search-buttons {
   text-align: right;
-  margin-top: 10
+  margin-top: 10px;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.dialog-footer {
+  text-align: right;
+}
+</style>
