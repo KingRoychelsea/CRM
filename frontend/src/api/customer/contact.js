@@ -5,7 +5,7 @@ const contactApi = {
   // 获取联系人列表
   getContactList: (customerId, params) => {
     return request({
-      url: `/api/customer/contact/list/${customerId}`,
+      url: `/customer/contact/list/${customerId}`,
       method: 'get',
       params
     })
@@ -14,7 +14,7 @@ const contactApi = {
   // 获取联系人详情
   getContactInfo: (id) => {
     return request({
-      url: `/api/customer/contact/${id}`,
+      url: `/customer/contact/${id}`,
       method: 'get'
     })
   },
@@ -22,7 +22,7 @@ const contactApi = {
   // 创建联系人
   createContact: (data) => {
     return request({
-      url: '/api/customer/contact',
+      url: '/customer/contact',
       method: 'post',
       data
     })
@@ -31,7 +31,7 @@ const contactApi = {
   // 更新联系人
   updateContact: (id, data) => {
     return request({
-      url: `/api/customer/contact/${id}`,
+      url: `/customer/contact/${id}`,
       method: 'put',
       data
     })
@@ -40,7 +40,7 @@ const contactApi = {
   // 删除联系人
   deleteContact: (id) => {
     return request({
-      url: `/api/customer/contact/${id}`,
+      url: `/customer/contact/${id}`,
       method: 'delete'
     })
   }

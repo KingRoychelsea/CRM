@@ -190,12 +190,12 @@ const operPagination = reactive({
 // 操作日志列表
 const operLogList = ref([])
 
-// 业务类型映射
+// 业务类型映射（后端使用数字：0-其他，1-新增，2-修改，3-删除）
 const businessTypeMap = {
-  'insert': { name: '新增', tag: 'success' },
-  'update': { name: '修改', tag: 'warning' },
-  'delete': { name: '删除', tag: 'danger' },
-  'select': { name: '查询', tag: 'info' }
+  '0': { name: '其他', tag: 'info' },
+  '1': { name: '新增', tag: 'success' },
+  '2': { name: '修改', tag: 'warning' },
+  '3': { name: '删除', tag: 'danger' }
 }
 
 // 获取业务类型名称
@@ -217,8 +217,9 @@ const getLoginLogList = async () => {
       pageSize: loginPagination.pageSize
     }
     const response = await logApi.getLoginLogList(params)
-    loginLogList.value = response.data.records
-    loginPagination.total = response.data.total
+    // 处理后端返回的直接列表格式
+    loginLogList.value = response.data
+    loginPagination.total = response.data.length
   } catch (error) {
     console.error('获取登录日志失败:', error)
     ElMessage.error('获取登录日志失败')
@@ -234,8 +235,9 @@ const getOperLogList = async () => {
       pageSize: operPagination.pageSize
     }
     const response = await logApi.getOperLogList(params)
-    operLogList.value = response.data.records
-    operPagination.total = response.data.total
+    // 处理后端返回的直接列表格式
+    operLogList.value = response.data
+    operPagination.total = response.data.length
   } catch (error) {
     console.error('获取操作日志失败:', error)
     ElMessage.error('获取操作日志失败')

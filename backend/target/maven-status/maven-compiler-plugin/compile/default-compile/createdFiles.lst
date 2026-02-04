@@ -58,6 +58,7 @@ com\crm\dto\sys\SysDictDTO.class
 com\crm\entity\sales\BusinessOpportunity.class
 com\crm\entity\sys\SysLoginLog.class
 com\crm\service\sys\SysLoginLogService.class
+com\crm\TestDataGenerator.class
 com\crm\config\TomcatConfig$CorsFilter.class
 com\crm\service\sales\PaymentService.class
 com\crm\entity\sys\SysDictItem.class
@@ -70,6 +71,7 @@ com\crm\exception\GlobalExceptionHandler.class
 com\crm\service\sys\SysOperLogService.class
 com\crm\entity\sys\SysOperLog.class
 com\crm\mapper\sys\SysRoleMapper.class
+com\crm\aspect\OperLogAspect.class
 com\crm\mapper\sales\ContractMapper.class
 com\crm\mapper\sales\PaymentMapper.class
 com\crm\UpdatePassword.class

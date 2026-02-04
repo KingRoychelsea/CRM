@@ -4,143 +4,144 @@
  */
 export const API_CONFIG = {
   // 基础配置
-  BASE_URL: '',
+  BASE_URL: '/api',
   TIMEOUT: 10000,
   
   // 认证相关
   AUTH: {
-    LOGIN: '/api/auth/login',
-    LOGOUT: '/api/auth/logout',
-    REFRESH: '/api/auth/refresh'
+    LOGIN: '/auth/login',
+    LOGOUT: '/auth/logout',
+    REFRESH: '/auth/refresh'
   },
   
   // 系统管理
   SYSTEM: {
     // 用户管理
     USER: {
-      LIST: '/api/sys/user/list',
-      DETAIL: '/api/sys/user',
-      CREATE: '/api/sys/user',
-      UPDATE: '/api/sys/user',
-      DELETE: '/api/sys/user',
-      BATCH_DELETE: '/api/sys/user/batch',
-      RESET_PASSWORD: '/api/sys/user/resetPassword',
-      UPDATE_STATUS: '/api/sys/user/status',
-      ROLES: '/api/sys/user/roles',
-      ASSIGN_ROLES: '/api/sys/user/roles'
+      LIST: '/sys/user/list',
+      DETAIL: '/sys/user',
+      CREATE: '/sys/user',
+      UPDATE: '/sys/user',
+      DELETE: '/sys/user',
+      BATCH_DELETE: '/sys/user/batch',
+      RESET_PASSWORD: '/sys/user/resetPassword',
+      UPDATE_STATUS: '/sys/user/status',
+      ROLES: '/sys/user/roles',
+      ASSIGN_ROLES: '/sys/user/roles'
     },
     
     // 角色管理
     ROLE: {
-      LIST: '/api/sys/role/list',
-      DETAIL: '/api/sys/role',
-      CREATE: '/api/sys/role',
-      UPDATE: '/api/sys/role',
-      DELETE: '/api/sys/role',
-      MENUS: '/api/sys/role/menu',
-      ASSIGN_MENUS: '/api/sys/role/menu'
+      LIST: '/sys/role/list',
+      DETAIL: '/sys/role',
+      CREATE: '/sys/role',
+      UPDATE: '/sys/role',
+      DELETE: '/sys/role',
+      MENUS: '/sys/role/menu',
+      ASSIGN_MENUS: '/sys/role/menu'
     },
     
     // 部门管理
     DEPT: {
-      LIST: '/api/sys/dept/list',
-      TREE: '/api/sys/dept/tree',
-      DETAIL: '/api/sys/dept',
-      CREATE: '/api/sys/dept',
-      UPDATE: '/api/sys/dept',
-      DELETE: '/api/sys/dept'
+      LIST: '/sys/dept/list',
+      TREE: '/sys/dept/tree',
+      DETAIL: '/sys/dept',
+      CREATE: '/sys/dept',
+      UPDATE: '/sys/dept',
+      DELETE: '/sys/dept'
     },
     
     // 菜单管理
     MENU: {
-      LIST: '/api/sys/menu/list',
-      TREE: '/api/sys/menu/tree',
-      DETAIL: '/api/sys/menu',
-      CREATE: '/api/sys/menu',
-      UPDATE: '/api/sys/menu',
-      DELETE: '/api/sys/menu'
+      LIST: '/sys/menu/list',
+      TREE: '/sys/menu/tree',
+      DETAIL: '/sys/menu',
+      CREATE: '/sys/menu',
+      UPDATE: '/sys/menu',
+      DELETE: '/sys/menu'
     },
     
     // 字典管理
     DICT: {
-      LIST: '/api/sys/dict/type/list',
-      DETAIL: '/api/sys/dict/type',
-      CREATE: '/api/sys/dict/type',
-      UPDATE: '/api/sys/dict/type',
-      DELETE: '/api/sys/dict/type',
-      ITEMS: '/api/sys/dict/item'
+      LIST: '/sys/dict/type/list',
+      DETAIL: '/sys/dict/type',
+      CREATE: '/sys/dict/type',
+      UPDATE: '/sys/dict/type',
+      DELETE: '/sys/dict/type',
+      ITEMS: '/sys/dict/item'
     },
     
     // 日志管理
     LOG: {
-      LOGIN_LIST: '/api/sys/log/login/list',
-      OPERATION_LIST: '/api/sys/log/oper/list',
-      ERROR_LIST: '/api/sys/log/error'
+      LOGIN_LIST: '/sys/log/login/list',
+      OPERATION_LIST: '/sys/log/oper/list',
+      ERROR_LIST: '/sys/log/error'
     }
   },
   
   // 客户管理
   CUSTOMER: {
-    LIST: '/api/customer/list',
-    DETAIL: '/api/customer',
-    CREATE: '/api/customer',
-    UPDATE: '/api/customer',
-    DELETE: '/api/customer',
-    CONTACTS: '/api/customer/contacts',
-    FOLLOW_RECORDS: '/api/customer/follow-records'
+    LIST: '/customer/list',
+    DETAIL: '/customer',
+    CREATE: '/customer',
+    UPDATE: '/customer',
+    DELETE: '/customer',
+    BATCH_DELETE: '/customer/batch',
+    CONTACTS: '/customer/contacts',
+    FOLLOW_RECORDS: '/customer/follow-records'
   },
   
   // 销售管理
   SALES: {
     // 商机管理
     OPPORTUNITY: {
-      LIST: '/api/sales/opportunity/list',
-      DETAIL: '/api/sales/opportunity',
-      CREATE: '/api/sales/opportunity',
-      UPDATE: '/api/sales/opportunity',
-      DELETE: '/api/sales/opportunity'
+      LIST: '/sales/opportunity/list',
+      DETAIL: '/sales/opportunity',
+      CREATE: '/sales/opportunity',
+      UPDATE: '/sales/opportunity',
+      DELETE: '/sales/opportunity'
     },
     
     // 合同管理
     CONTRACT: {
-      LIST: '/api/sales/contract/list',
-      DETAIL: '/api/sales/contract',
-      CREATE: '/api/sales/contract',
-      UPDATE: '/api/sales/contract',
-      DELETE: '/api/sales/contract'
+      LIST: '/sales/contract/list',
+      DETAIL: '/sales/contract',
+      CREATE: '/sales/contract',
+      UPDATE: '/sales/contract',
+      DELETE: '/sales/contract'
     },
     
     // 订单管理
     ORDER: {
-      LIST: '/api/sales/order/list',
-      DETAIL: '/api/sales/order',
-      CREATE: '/api/sales/order',
-      UPDATE: '/api/sales/order',
-      DELETE: '/api/sales/order'
+      LIST: '/sales/order/list',
+      DETAIL: '/sales/order',
+      CREATE: '/sales/order',
+      UPDATE: '/sales/order',
+      DELETE: '/sales/order'
     },
     
     // 回款管理
     PAYMENT: {
-      LIST: '/api/sales/payment/list',
-      DETAIL: '/api/sales/payment',
-      CREATE: '/api/sales/payment',
-      UPDATE: '/api/sales/payment',
-      DELETE: '/api/sales/payment'
+      LIST: '/sales/payment/list',
+      DETAIL: '/sales/payment',
+      CREATE: '/sales/payment',
+      UPDATE: '/sales/payment',
+      DELETE: '/sales/payment'
     }
   },
   
   // 统计报表
   STATS: {
-    DASHBOARD: '/api/stats/dashboard',
-    CUSTOMER_STATS: '/api/stats/customer',
-    SALES_STATS: '/api/stats/sales',
-    PERFORMANCE_STATS: '/api/stats/performance'
+    DASHBOARD: '/stats/dashboard',
+    CUSTOMER_STATS: '/stats/customer',
+    SALES_STATS: '/stats/sales',
+    PERFORMANCE_STATS: '/stats/performance'
   },
   
   // 健康检查
   HEALTH: {
-    STATUS: '/api/health/status',
-    ENDPOINTS: '/api/health/endpoints'
+    STATUS: '/health/status',
+    ENDPOINTS: '/health/endpoints'
   }
 };
 
@@ -171,7 +172,7 @@ export function getApiPathWithIdAndSubPath(basePath, id, subPath) {
  */
 export const ENV_CONFIG = {
   development: {
-    baseUrl: '',
+    baseUrl: '/api',
     timeout: 10000
   },
   production: {
@@ -188,6 +189,6 @@ export const ENV_CONFIG = {
  * 获取当前环境的配置
  */
 export function getCurrentEnvConfig() {
-  const env = import.meta.env?.MODE || 'development';
-  return ENV_CONFIG[env] || ENV_CONFIG.development;
+  // 强制使用开发环境配置，确保前端使用正确的baseUrl
+  return ENV_CONFIG.development;
 }

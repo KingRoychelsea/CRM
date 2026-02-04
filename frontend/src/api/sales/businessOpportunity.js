@@ -1,11 +1,12 @@
 import request from '../axios'
+import { API_CONFIG } from '../../config/api.config'
 
 // 商机管理API
 const businessOpportunityApi = {
   // 获取商机列表
   getBusinessOpportunityList: (params) => {
     return request({
-      url: '/api/sales/opportunity/list',
+      url: API_CONFIG.SALES.OPPORTUNITY.LIST,
       method: 'get',
       params
     })
@@ -14,7 +15,7 @@ const businessOpportunityApi = {
   // 获取商机详情
   getBusinessOpportunityInfo: (id) => {
     return request({
-      url: `/api/sales/opportunity/${id}`,
+      url: `${API_CONFIG.SALES.OPPORTUNITY.DETAIL}/${id}`,
       method: 'get'
     })
   },
@@ -22,7 +23,7 @@ const businessOpportunityApi = {
   // 创建商机
   createBusinessOpportunity: (data) => {
     return request({
-      url: '/api/sales/opportunity',
+      url: API_CONFIG.SALES.OPPORTUNITY.CREATE,
       method: 'post',
       data
     })
@@ -31,7 +32,7 @@ const businessOpportunityApi = {
   // 更新商机
   updateBusinessOpportunity: (id, data) => {
     return request({
-      url: `/api/sales/opportunity/${id}`,
+      url: `${API_CONFIG.SALES.OPPORTUNITY.UPDATE}/${id}`,
       method: 'put',
       data
     })
@@ -40,7 +41,7 @@ const businessOpportunityApi = {
   // 删除商机
   deleteBusinessOpportunity: (id) => {
     return request({
-      url: `/api/sales/opportunity/${id}`,
+      url: `${API_CONFIG.SALES.OPPORTUNITY.DELETE}/${id}`,
       method: 'delete'
     })
   }

@@ -20,12 +20,14 @@
 
 ### 1. 数据库部署
 1. 创建数据库：`CREATE DATABASE crm DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;`
-2. 执行数据库脚本：`crm-database.sql`，创建所有表结构和基础数据
+2. 执行数据库脚本：`database-init.sql`，创建所有表结构和基础数据
 3. 数据库连接配置：
    - 连接地址：127.0.0.1:3306
-   - 用户名：user
+   - 用户名：root
    - 密码：******
    - 数据库名称：crm
+
+   > 注意：请根据实际环境修改数据库连接配置，在 `backend/src/main/resources/application.yml` 文件中更新数据库连接信息。
 
 ### 2. 后端项目部署
 1. 进入后端目录：`cd backend`
@@ -93,6 +95,7 @@ backend/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/crm/
+│   │   │   ├── aspect/         # 切面类
 │   │   │   ├── common/         # 公共组件
 │   │   │   ├── config/         # 配置类
 │   │   │   ├── controller/     # 控制器
@@ -118,20 +121,37 @@ backend/
 frontend/
 ├── src/
 │   ├── api/                    # 接口请求封装
-│   ├── assets/                 # 静态资源
-│   ├── components/             # 公共组件
+│   │   ├── __tests__/          # API测试
+│   │   ├── customer/           # 客户相关接口
+│   │   ├── sales/              # 销售相关接口
+│   │   └── system/             # 系统相关接口
+│   ├── config/                 # 配置文件
 │   ├── layout/                 # 布局组件
 │   ├── pages/                  # 页面组件
 │   │   ├── customer/           # 客户管理
+│   │   ├── dashboard/          # 仪表盘
 │   │   ├── login/              # 登录页面
 │   │   ├── sales/              # 销售管理
+│   │   │   ├── contract/       # 合同管理
+│   │   │   ├── opportunity/    # 商机管理
+│   │   │   ├── order/          # 订单管理
+│   │   │   └── payment/         # 回款管理
 │   │   ├── stats/              # 数据统计
 │   │   └── system/             # 系统管理
+│   │       ├── dept/            # 部门管理
+│   │       ├── dict/            # 字典管理
+│   │       ├── log/             # 日志管理
+│   │       ├── menu/            # 菜单管理
+│   │       ├── role/            # 角色管理
+│   │       └── user/            # 用户管理
 │   ├── router/                 # 路由配置
 │   ├── store/                  # 状态管理
-│   ├── utils/                  # 工具类
+│   ├── tests/                  # 测试代码
 │   ├── App.vue                 # 根组件
 │   └── main.js                 # 入口文件
+├── tests/                      # 测试配置
+├── .env.development            # 开发环境配置
+├── .env.production             # 生产环境配置
 ├── index.html                  # HTML模板
 ├── package.json                # 项目配置
 └── vite.config.js              # Vite配置
@@ -193,11 +213,11 @@ frontend/
 
 ## 十、更新日志
 
-### v1.0.0
-- 初始化项目，实现基础功能模块
-- 完成前后端分离架构搭建
-- 实现系统管理、客户管理、销售管理和数据统计分析功能
-- 提供完整的数据库结构和测试数据
+### v1.1
+- 更新项目结构，完善前端和后端目录组织
+- 优化数据库初始化脚本，添加更多基础数据
+- 修复编译错误，确保项目能够正常运行
+- 完善文档说明，更新版本号
 
 ---
 

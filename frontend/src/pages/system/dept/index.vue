@@ -28,7 +28,7 @@
       >
         <template #default="{ node, data }">
           <span class="dept-node">
-            <span>{{ node.label }}</span>
+            <span>{{ data.deptName }}</span>
             <span class="dept-actions">
               <el-button type="primary" size="small" @click.stop="handleAddSubDept(data)">
                 <el-icon><Plus /></el-icon>

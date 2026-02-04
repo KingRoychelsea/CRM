@@ -1,11 +1,12 @@
 import request from '../axios'
+import { API_CONFIG } from '../../config/api.config'
 
 // 合同管理API
 const contractApi = {
   // 获取合同列表
   getContractList: (params) => {
     return request({
-      url: '/api/sales/contract/list',
+      url: API_CONFIG.SALES.CONTRACT.LIST,
       method: 'get',
       params
     })
@@ -14,7 +15,7 @@ const contractApi = {
   // 获取合同详情
   getContractInfo: (id) => {
     return request({
-      url: `/api/sales/contract/${id}`,
+      url: `${API_CONFIG.SALES.CONTRACT.DETAIL}/${id}`,
       method: 'get'
     })
   },
@@ -22,7 +23,7 @@ const contractApi = {
   // 创建合同
   createContract: (data) => {
     return request({
-      url: '/api/sales/contract',
+      url: API_CONFIG.SALES.CONTRACT.CREATE,
       method: 'post',
       data
     })
@@ -31,7 +32,7 @@ const contractApi = {
   // 更新合同
   updateContract: (id, data) => {
     return request({
-      url: `/api/sales/contract/${id}`,
+      url: `${API_CONFIG.SALES.CONTRACT.UPDATE}/${id}`,
       method: 'put',
       data
     })
@@ -40,7 +41,7 @@ const contractApi = {
   // 删除合同
   deleteContract: (id) => {
     return request({
-      url: `/api/sales/contract/${id}`,
+      url: `${API_CONFIG.SALES.CONTRACT.DELETE}/${id}`,
       method: 'delete'
     })
   }

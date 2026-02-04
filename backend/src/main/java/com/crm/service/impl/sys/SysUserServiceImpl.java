@@ -50,6 +50,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    private com.crm.service.sys.SysLoginLogService sysLoginLogService;
+
     @Override
     public Object login(SysUserDTO loginDTO) {
         log.info("Login attempt for user: {}", loginDTO.getUsername());
@@ -59,6 +62,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("User found: {}", user != null);
         if (user == null) {
             log.error("User not found: {}", loginDTO.getUsername());
+            // 记录登录失败日志
+            recordLoginLog(loginDTO.getUsername(), 0, "用户名或密码错误");
             throw new BusinessException("用户名或密码错误");
         }
 
@@ -66,6 +71,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("User status: {}", user.getStatus());
         if (!"1".equals(user.getStatus())) {
             log.error("User disabled: {}", loginDTO.getUsername());
+            // 记录登录失败日志
+            recordLoginLog(loginDTO.getUsername(), 0, "用户已被禁用");
             throw new BusinessException("用户已被禁用");
         }
 
@@ -73,6 +80,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("Validating password for user: {}", loginDTO.getUsername());
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             log.error("Password validation failed for user: {}", loginDTO.getUsername());
+            // 记录登录失败日志
+            recordLoginLog(loginDTO.getUsername(), 0, "用户名或密码错误");
             throw new BusinessException("用户名或密码错误");
         }
 
@@ -82,12 +91,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String token = jwtUtils.generateToken(user.getUsername(), claims);
         log.info("Token generated successfully for user: {}", loginDTO.getUsername());
 
+        // 记录登录成功日志
+        recordLoginLog(loginDTO.getUsername(), 1, "登录成功");
+
         // 构建返回结果
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", getUserInfo(user));
 
         return result;
+    }
+
+    /**
+     * 记录登录日志
+     */
+    private void recordLoginLog(String username, int status, String msg) {
+        try {
+            com.crm.entity.sys.SysLoginLog loginLog = new com.crm.entity.sys.SysLoginLog();
+            loginLog.setUsername(username);
+            loginLog.setStatus(String.valueOf(status));
+            loginLog.setMsg(msg);
+            loginLog.setLoginTime(new Date());
+            // 获取客户端IP（简化处理，实际项目中需要从请求中获取）
+            loginLog.setIpaddr("127.0.0.1");
+            // 模拟浏览器信息
+            loginLog.setBrowser("Chrome");
+            // 模拟操作系统信息
+            loginLog.setOs("Windows 10");
+            sysLoginLogService.saveLog(loginLog);
+            log.info("登录日志记录成功: {}, 状态: {}, 消息: {}", username, status, msg);
+        } catch (Exception e) {
+            log.error("登录日志记录失败: {}", e.getMessage());
+        }
     }
 
     @Override

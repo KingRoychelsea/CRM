@@ -24,12 +24,11 @@
         node-key="id"
         default-expand-all
         :expand-on-click-node="false"
-        :render-content="renderContent"
         @node-click="handleNodeClick"
       >
         <template #default="{ node, data }">
           <span class="menu-node">
-            <span>{{ node.label }}</span>
+            <span>{{ data.menuName }}</span>
             <span class="menu-actions">
               <el-button type="primary" size="small" @click.stop="handleAddSubMenu(data)">
                 <el-icon><Plus /></el-icon>
@@ -166,60 +165,7 @@ const menuOptions = computed(() => {
   return options
 })
 
-// 渲染菜单节点
-const renderContent = (h, { node, data, store }) => {
-  return h('span', {
-    class: 'menu-node'
-  }, [
-    h('span', node.label),
-    h('span', {
-      class: 'menu-actions'
-    }, [
-      h('el-button', {
-        props: {
-          type: 'primary',
-          size: 'small'
-        },
-        on: {
-          click: (event) => {
-            event.stopPropagation()
-            handleAddSubMenu(data)
-          }
-        }
-      }, [
-        h('el-icon', [h(Plus)])
-      ]),
-      h('el-button', {
-        props: {
-          type: 'success',
-          size: 'small'
-        },
-        on: {
-          click: (event) => {
-            event.stopPropagation()
-            handleEditMenu(data)
-          }
-        }
-      }, [
-        h('el-icon', [h(Edit)])
-      ]),
-      h('el-button', {
-        props: {
-          type: 'danger',
-          size: 'small'
-        },
-        on: {
-          click: (event) => {
-            event.stopPropagation()
-            handleDeleteMenu(data.id)
-          }
-        }
-      }, [
-        h('el-icon', [h(Delete)])
-      ])
-    ])
-  ])
-}
+
 
 // 获取菜单树
 const getMenuTree = async () => {

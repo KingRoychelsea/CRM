@@ -40,6 +40,7 @@ D:\trae_project\CRM\backend\src\main\java\com\crm\filter\OptionsRequestFilter.ja
 D:\trae_project\CRM\backend\src\main\java\com\crm\mapper\sales\ContractMapper.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\entity\sys\SysLoginLog.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\controller\sales\PaymentController.java
+D:\trae_project\CRM\backend\src\main\java\com\crm\TestDataGenerator.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\vo\sys\SysDeptVO.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\controller\HealthCheckController.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\vo\sys\SysDictVO.java
@@ -64,6 +65,7 @@ D:\trae_project\CRM\backend\src\main\java\com\crm\service\sales\BusinessOpportun
 D:\trae_project\CRM\backend\src\main\java\com\crm\service\impl\sys\SysUserServiceImpl.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\controller\sales\BusinessOpportunityController.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\service\impl\customer\FollowRecordServiceImpl.java
+D:\trae_project\CRM\backend\src\main\java\com\crm\aspect\OperLogAspect.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\dto\customer\FollowRecordDTO.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\controller\stats\StatsController.java
 D:\trae_project\CRM\backend\src\main\java\com\crm\controller\sys\SysRoleController.java

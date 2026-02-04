@@ -1,11 +1,12 @@
 import request from '../axios'
+import { API_CONFIG } from '../../config/api.config'
 
 // 订单管理API
 const orderApi = {
   // 获取订单列表
   getOrderList: (params) => {
     return request({
-      url: '/api/sales/order/list',
+      url: API_CONFIG.SALES.ORDER.LIST,
       method: 'get',
       params
     })
@@ -14,7 +15,7 @@ const orderApi = {
   // 获取订单详情
   getOrderInfo: (id) => {
     return request({
-      url: `/api/sales/order/${id}`,
+      url: `${API_CONFIG.SALES.ORDER.DETAIL}/${id}`,
       method: 'get'
     })
   },
@@ -22,7 +23,7 @@ const orderApi = {
   // 创建订单
   createOrder: (data) => {
     return request({
-      url: '/api/sales/order',
+      url: API_CONFIG.SALES.ORDER.CREATE,
       method: 'post',
       data
     })
@@ -31,7 +32,7 @@ const orderApi = {
   // 更新订单
   updateOrder: (id, data) => {
     return request({
-      url: `/api/sales/order/${id}`,
+      url: `${API_CONFIG.SALES.ORDER.UPDATE}/${id}`,
       method: 'put',
       data
     })
@@ -40,7 +41,7 @@ const orderApi = {
   // 删除订单
   deleteOrder: (id) => {
     return request({
-      url: `/api/sales/order/${id}`,
+      url: `${API_CONFIG.SALES.ORDER.DELETE}/${id}`,
       method: 'delete'
     })
   }

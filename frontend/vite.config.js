@@ -31,6 +31,22 @@ export default defineConfig({
         onError: (err, req, res) => {
           console.error(`[Proxy Error] ${req.method} ${req.url}: ${err.message}`)
         }
+      },
+      // 处理直接的/login请求
+      '^/login': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        rewrite: (path) => '/api/auth/login',
+        timeout: 30000,
+        onProxyReq: (proxyReq, req, res) => {
+          console.log(`[Proxy] ${req.method} ${req.url} -> ${proxyReq.path}`)
+        },
+        onProxyRes: (proxyRes, req, res) => {
+          console.log(`[Proxy] ${proxyRes.statusCode} ${req.url}`)
+        },
+        onError: (err, req, res) => {
+          console.error(`[Proxy Error] ${req.method} ${req.url}: ${err.message}`)
+        }
       }
     }
   },

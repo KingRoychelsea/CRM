@@ -2,13 +2,10 @@ import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserStore } from '../store/user'
 
-import { getCurrentEnvConfig } from '../config/api.config'
-
 // 创建axios实例
-const envConfig = getCurrentEnvConfig()
 const service = axios.create({
-  baseURL: envConfig.baseUrl,
-  timeout: envConfig.timeout,
+  baseURL: '/api',
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -43,38 +40,7 @@ service.interceptors.response.use(
   },
   error => {
     console.error('响应错误:', error)
-    const userStore = useUserStore()
-    
-    if (error.response) {
-      const status = error.response.status
-      switch (status) {
-        case 401:
-          ElMessageBox.confirm('登录已过期，请重新登录', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            userStore.resetToken()
-            window.location.href = '/login'
-          })
-          break
-        case 403:
-          ElMessage.error('无权限访问')
-          break
-        case 404:
-          ElMessage.error('请求地址不存在')
-          break
-        case 500:
-          ElMessage.error('服务器内部错误')
-          break
-        default:
-          ElMessage.error('请求失败')
-      }
-    } else if (error.message.includes('timeout')) {
-      ElMessage.error('请求超时，请重试')
-    } else {
-      ElMessage.error('网络错误')
-    }
+    ElMessage.error(error.message || '网络请求失败')
     return Promise.reject(error)
   }
 )
